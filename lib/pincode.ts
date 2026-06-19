@@ -1,10 +1,13 @@
 import type { PostOffice, DistrictData, StateData, PincodeGroup } from '@/types/pincode';
 import { STATES, STATES_BY_SLUG } from '@/lib/states';
 import { toSlug } from '@/lib/utils';
+import { readFileSync, existsSync } from 'fs';
+import { join } from 'path';
 
 const API_BASE = 'https://api.singhyogendra.com.np/india-pincode';
+const DATA_DIR = join(process.cwd(), 'data');
 
-async function fetchWithRetry(url: string, retries = 4, delayMs = 1500): Promise<Response> {
+async function fetchWithRetry(url: string, retries = 4, delayMs = 2000): Promise<Response> {
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
       const res = await fetch(url, { next: { revalidate: false } });
@@ -19,10 +22,15 @@ async function fetchWithRetry(url: string, retries = 4, delayMs = 1500): Promise
 }
 
 export async function fetchStateOffices(apiFile: string): Promise<PostOffice[]> {
+  // Prefer pre-downloaded local file (populated by scripts/fetch-data.mjs before build)
+  const localPath = join(DATA_DIR, `${apiFile}.json`);
+  if (existsSync(localPath)) {
+    const text = readFileSync(localPath, 'utf-8');
+    return JSON.parse(text);
+  }
+  // Fallback: fetch from API (dev mode or if script wasn't run)
   const res = await fetchWithRetry(`${API_BASE}/${apiFile}.json`);
   const text = await res.text();
-  // Strip bare control characters (U+0000–U+001F) that are invalid inside JSON strings,
-  // keeping tab (0x09), newline (0x0A) and carriage-return (0x0D) which JSON allows.
   const clean = text.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, '');
   return JSON.parse(clean);
 }
