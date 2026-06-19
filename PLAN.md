@@ -1,77 +1,89 @@
-# PostalNP — Nepal Postal Code Directory
+# PinCodeFinder — India PIN Code Directory
 
 ## Project Overview
 
-A fully SEO-optimized Next.js 15 website for finding Nepal postal codes, organized by province → district → locality. Styled after CricFoot (cfnet-main) with a crimson/navy Nepal theme and a P² logo.
+A fully SEO-optimized Next.js 15 static site for finding India Post PIN (Postal Index Number) codes. Covers all 35 states and union territories, organized as State → District → PIN Code. Deployed on GitHub Pages at **www.pincodefinder.net**.
 
 ---
 
 ## Data Source
 
-**API:** `https://api.singhyogendra.com.np/postal/p{1-7}.json`
+**API:** `https://api.singhyogendra.com.np/india-pincode/{state}.json`
 
-### Province Map
+Data is pre-downloaded before every build via `scripts/fetch-data.mjs` into a local `data/` directory (git-ignored). During static generation, `lib/pincode.ts` reads from disk — zero network calls at build time.
 
-| Num | Province | Slug | Capital | Former Name |
-|-----|----------|------|---------|-------------|
-| 1 | Koshi Province | `koshi` | Biratnagar | Province No. 1 |
-| 2 | Madhesh Province | `madhesh` | Janakpur | Province No. 2 |
-| 3 | Bagmati Province | `bagmati` | Kathmandu | Province No. 3 |
-| 4 | Gandaki Province | `gandaki` | Pokhara | Province No. 4 |
-| 5 | Lumbini Province | `lumbini` | Deukhuri/Butwal | Province No. 5 |
-| 6 | Karnali Province | `karnali` | Birendranagar | Province No. 6 |
-| 7 | Sudurpashchim Province | `sudurpashchim` | Dhangadhi | Province No. 7 |
+### API File Names (35 states/UTs)
 
-### API Data Structures
+| State / UT | API File |
+|---|---|
+| Andhra Pradesh | `andhra_pradesh` |
+| Arunachal Pradesh | `arunachal_pradesh` |
+| Assam | `assam` |
+| Bihar | `bihar` |
+| Chhattisgarh | `chattisgarh` |
+| Goa | `goa` |
+| Gujarat | `gujarat` |
+| Haryana | `haryana` |
+| Himachal Pradesh | `himachal_pradesh` |
+| Jharkhand | `jharkhand` |
+| Karnataka | `karnataka` |
+| Kerala | `kerala` |
+| Madhya Pradesh | `madhya_pradesh` |
+| Maharashtra | `maharashtra` |
+| Manipur | `manipur` |
+| Meghalaya | `meghalaya` |
+| Mizoram | `mizoram` |
+| Nagaland | `nagaland` |
+| Odisha | `odisha` |
+| Punjab | `punjab` |
+| Rajasthan | `rajasthan` |
+| Sikkim | `sikkim` |
+| Tamil Nadu | `tamil_nadu` |
+| Tripura | `tripura` |
+| Uttar Pradesh | `uttar_pradesh` |
+| Uttarakhand | `uttarakhand` |
+| West Bengal | `west_bengal` |
+| Andaman & Nicobar | `andaman_and_nicobar_islands` |
+| Chandigarh | `chandigarh` |
+| Dadra & Nagar Haveli | `dadra_and_nagar_haveli` |
+| Daman & Diu | `daman_and_diu` |
+| Delhi | `delhi` |
+| Jammu & Kashmir | `jammu_and_kashmir` |
+| Lakshadweep | `lakshadweep` |
+| Puducherry | `pondicherry` |
 
-**Format A** — Provinces 1–4: Object-based nesting
-```json
-{
-  "province": "Koshi Province (Province No. 1)",
-  "country": "Nepal",
-  "total_districts": 14,
-  "postal_codes": {
-    "DistrictName": {
-      "LocationName": "PostalCode"
-    }
-  }
-}
+> **Note:** Telangana is excluded — the API has no `telangana.json`.
+
+### TypeScript Interfaces (`types/pincode.ts`)
+
+```ts
+PostOffice      { officeName, pincode, officeType, deliveryStatus, divisionName, regionName, circleName, taluk, districtName, stateName }
+PincodeGroup    { pincode, offices: PostOffice[], hasHeadOffice }
+DistrictData    { districtName, districtSlug, pincodes, totalOffices, pincodeRange }
+StateData       { stateName, stateSlug, apiFile, districts, totalDistricts, totalOffices }
+StateInfo       { name, slug, apiFile, capital, type: 'state' | 'ut' }
 ```
-
-**Format B** — Provinces 5–7: Array-based structure
-```json
-{
-  "province": "Lumbini Province (Province 5)",
-  "postal_codes": [
-    {
-      "district": "DistrictName",
-      "post_offices": [
-        { "name": "LocationName", "code": 32900, "type": "DPO" }
-      ]
-    }
-  ]
-}
-```
-
-Both formats are normalized into a unified `ProvinceData` interface by `lib/postal.ts`.
 
 ---
 
 ## URL Structure
 
 ```
-/                                              → Homepage (all provinces + search)
-/province/[province-slug]/                     → Province page (all districts)
-/province/[province-slug]/[district-slug]/     → District page (all post offices)
-/province/[province-slug]/[district-slug]/[postal-code]/  → Postal code detail page
+/                                                    → Homepage
+/state/[state]/                                      → State page
+/state/[state]/[district]/                           → District page
+/state/[state]/[district]/[pincode]/                 → PIN code detail page
+/about/                                              → About Us
+/contact/                                            → Contact
+/privacy-policy/                                     → Privacy Policy
+/cookie-policy/                                      → Cookie & Consent Management
 ```
 
 **Example URLs:**
 ```
-/province/koshi/
-/province/koshi/bhojpur/
-/province/koshi/bhojpur/57000/
-/province/bagmati/kathmandu/44600/
+/state/uttar-pradesh/
+/state/uttar-pradesh/agra/
+/state/uttar-pradesh/agra/282001/
 ```
 
 ---
@@ -79,137 +91,124 @@ Both formats are normalized into a unified `ProvinceData` interface by `lib/post
 ## Page Content
 
 ### Homepage (`/`)
-- Hero search: live client-side filtering across all ~1000+ postal codes
-- Province cards grid: 7 cards with stats (districts, post offices, code range)
-- "How to find your postal code" 3-step guide
-- FAQ: 5 Nepal postal system questions
+- Hero with live fuzzy search (scored matching — exact PIN → prefix → office → district → state)
+- State cards grid (States + Union Territories, with capital, district count, office count)
+- "How to Find Your PIN Code" 3-step guide
+- Recently Viewed PIN Codes (last 2, from localStorage)
+- 8 FAQs (JSON-LD FAQPage schema)
 
-### Province Page (`/province/[slug]`)
-- Province name, capital, former name, stats
-- District grid (all districts with DPO code + count)
-- Other Provinces widget (cross-province links)
-- FAQ: 5 province-specific questions (dynamic)
+### State Page (`/state/[state]/`)
+- State name, capital, type (State / UT), coverage stats
+- Unique overview paragraph + postal note (from `lib/stateContent.ts`)
+- District grid with PIN range per district
+- Other States & UTs pills
+- 10 FAQs
+- Per-state OG image (`app/state/[state]/opengraph-image.tsx`)
 
-### District Page (`/province/[slug]/[district]`)
-- District + province name
-- Full postal code table (DPO highlighted in amber)
-- Other Districts in same province (internal links)
-- Other Provinces widget
-- FAQ: 5 district-specific questions (dynamic)
+### District Page (`/state/[state]/[district]/`)
+- District + state name, office count, PIN range
+- District overview prose
+- Full PIN code list (table: PIN, H.O/S.O/B.O count, delivery status)
+- Other Districts pills
+- 10 FAQs
 
-### Postal Code Page (`/province/[slug]/[district]/[postal]`)
-- Large postal code display + type badge (DPO / APO)
-- Location info card (name, district, province, country)
-- Address format example box
-- Nearby post offices (same district, up to 10)
-- Other Provinces widget
-- FAQ: 6 location-specific questions (dynamic)
+### PIN Code Detail Page (`/state/[state]/[district]/[pincode]/`)
+- **Detail card:** Left panel (PIN number, office type badge, Copy Code button) + Right panel (2-col grid: Office, District, State, Division, Circle, Country, Full Address)
+- Address format box (copyable)
+- Post offices table (name, type badge, delivery status, taluk, division)
+- Other PIN Codes in same district
+- Share buttons
+- Other States & UTs pills
+- 10 FAQs
+- Tracks page to `localStorage` (recently viewed)
+
+### Legal Pages
+| Path | Purpose |
+|---|---|
+| `/about/` | Mission, coverage stats, India Post disclaimer |
+| `/contact/` | Contact form (no backend, no email exposed publicly) |
+| `/privacy-policy/` | Full GDPR-compliant policy |
+| `/cookie-policy/` | Per-cookie table + live consent management UI |
+
+---
+
+## Components
+
+| File | Description |
+|---|---|
+| `Logo.tsx` | Location-pin SVG with saffron gradient, parameterised `size` |
+| `Navbar.tsx` | Logo + brand + main links + top-state quick links |
+| `Footer.tsx` | State/UT columns + legal links row (About, Contact, Privacy, Cookies) |
+| `SearchClient.tsx` | `'use client'` — scored fuzzy search, reuses `rv-item` CSS classes |
+| `RecentlyViewed.tsx` | `'use client'` — reads from localStorage, shows last 2 |
+| `PincodeTracker.tsx` | `'use client'` — writes current PIN page to localStorage on mount |
+| `PrefetchLinks.tsx` | `'use client'` — injects `<link rel="prefetch">` tags on mount |
+| `CookieConsent.tsx` | `'use client'` — GDPR banner, localStorage key `pcf_cookie_consent` |
+| `CopyButton.tsx` | Copy to clipboard button (two variants: hero / default) |
+| `ShareButtons.tsx` | WhatsApp, Twitter/X, copy-link share buttons |
+| `Breadcrumb.tsx` | BreadcrumbList JSON-LD + visual breadcrumb |
+| `Faq.tsx` | FAQPage JSON-LD accordion |
 
 ---
 
 ## SEO Features
 
 ### Per-page Metadata
-- Unique `<title>` and `<meta description>` for every page
-- Canonical URL
+- Unique `<title>` and `<meta description>` on every route
+- Canonical URL via `alternates.canonical`
+- Expanded `keywords` (12–16 terms per page, location-specific)
 - Open Graph + Twitter Card
 
-### JSON-LD Schema
-| Page | Schema Types |
-|------|-------------|
-| Homepage | WebSite + Organization + SearchAction |
-| Province | Place + BreadcrumbList |
-| District | Place + BreadcrumbList |
-| Postal Code | PostalAddress + FAQPage + BreadcrumbList |
+### JSON-LD Schemas
+| Page | Schemas |
+|---|---|
+| Layout (all pages) | WebSite + Organization + GovernmentOrganization (India Post) |
+| Homepage | FAQPage (8 Qs) |
+| State | FAQPage (10 Qs) |
+| District | FAQPage (10 Qs) |
+| PIN Code | PostalAddress + PostOffice + FAQPage (10 Qs) |
 
-### Other
-- `sitemap.xml` — auto-generated from API data (all pages)
-- `robots.txt` — allows all, links sitemap
-- Inter font from Google Fonts
+### OG Images
+- Homepage: `app/opengraph-image.tsx` (1200×630, Satori/ImageResponse)
+- Per-state: `app/state/[state]/opengraph-image.tsx` (dynamic state name + capital)
 
----
-
-## Tech Stack
-
-- **Next.js 15** — App Router, Static Export (`output: 'export'`)
-- **React 19**
-- **TypeScript 5**
-- **Pure CSS** — no Tailwind, all in `app/globals.css`
-- **No client-side JS** except the homepage search component
-
----
-
-## Internal Linking Strategy
-
-Each page links to:
-1. **Same level:** Other districts in same province (district page), other nearby codes (postal page)
-2. **Parent level:** Province page, homepage (breadcrumbs)
-3. **Cross-province:** All other provinces (province pills on every page)
-
-This creates a dense internal link graph benefiting SEO crawlability.
-
----
-
-## FAQ Strategy
-
-### Homepage (static)
-1. What is a postal code in Nepal?
-2. How many provinces does Nepal have postal codes for?
-3. How do I find my postal code in Nepal?
-4. What does D.P.O. mean?
-5. Are Nepal postal codes the same as ZIP codes?
-
-### Province page (dynamic, uses real data)
-1. What are the postal codes in [Province]?
-2. How many districts are in [Province]?
-3. What is the capital of [Province]?
-4. What was [Province] formerly called?
-5. How do I find a postal code in [Province]?
-
-### District page (dynamic)
-1. What is the postal code of [District]?
-2. Which province is [District] in?
-3. How many post offices are in [District]?
-4. What is the D.P.O. postal code of [District]?
-5. How do I use the [District] postal code?
-
-### Postal code page (dynamic)
-1. What is the postal code of [Location]?
-2. Which district is [Location] in?
-3. Which province is [Location] in?
-4. How do I write [Location]'s postal code in an address?
-5. What does [DPO/APO] mean in Nepal's postal system?
-6. What are other postal codes near [Location]?
+### Crawling
+- `app/robots.ts` — explicit allow rules for Googlebot, Bingbot, GPTBot, ClaudeBot, PerplexityBot, ChatGPT-User, anthropic-ai
+- `public/llms.txt` — AI crawler guidance (URL structure, data format, allowed uses)
+- `app/sitemap.ts` — auto-generated XML sitemap (all 21,097+ pages)
 
 ---
 
 ## Branding
 
-- **Brand name:** PostalNP
-- **Logo:** P² text on crimson gradient rounded square SVG
-- **Favicon:** `app/icon.svg` (same SVG, used by Next.js automatically)
-- **Theme color:** `#c0392b` (crimson)
-- **Primary accent:** `#1a3a6b` (navy)
-- **Postal code badge:** `#d97706` (amber/gold)
-
----
+| Property | Value |
+|---|---|
+| Brand name | **PinCodeFinder** |
+| Domain | `www.pincodefinder.net` |
+| Logo | Location-pin SVG with saffron gradient (`components/Logo.tsx`) |
+| Favicon | `app/icon.svg` (same location-pin, 40×40 viewBox) |
+| Theme color | `#f97316` (saffron/orange) |
+| Nav/card background | `#1a3a6b` (navy) |
+| Tagline | "India's PIN Code Directory" |
 
 ## Color Palette
 
 ```css
---navy:      #1a3a6b   /* nav, links */
---navy-dark: #0d2040
---navy-mid:  #1e4d8c
---red:       #c0392b   /* Nepal crimson accent */
---red-dark:  #96281b
---gold:      #d97706   /* postal code badges */
---gold-light:#fef3c7
---bg:        #ffffff
---bg-alt:    #f5f7fa
---bg-section:#e8ecf3
---border:    #d1d5db
---text:      #1a202c
---text-muted:#6b7280
+--red:        #f97316   /* saffron — primary accent, badges, CTAs */
+--red-dark:   #ea580c
+--navy:       #1a3a6b   /* nav, detail card, footer */
+--navy-dark:  #0d2040
+--gold:       #d97706   /* PIN code number highlights */
+--gold-light: #fef9c3   /* PIN badge backgrounds */
+--green:      #16a34a   /* B.O badge, delivery status */
+--green-lt:   #dcfce7
+--bg:         #ffffff
+--bg-alt:     #f8f9fb
+--border:     #e2e8f0
+--border-lt:  #f1f5f9
+--text:       #1a202c
+--text-mid:   #374151
+--text-muted: #6b7280
 ```
 
 ---
@@ -217,48 +216,106 @@ This creates a dense internal link graph benefiting SEO crawlability.
 ## File Structure
 
 ```
-postal/
+india-pincode/
 ├── PLAN.md
-├── package.json
-├── next.config.ts
+├── package.json                    # prebuild → scripts/fetch-data.mjs
+├── next.config.ts                  # output: 'export', staticPageGenerationTimeout: 300
 ├── tsconfig.json
+├── .github/workflows/deploy.yml    # GitHub Actions → GitHub Pages
+├── scripts/
+│   └── fetch-data.mjs              # Downloads all 35 state JSONs to data/ before build
+├── data/                           # Git-ignored; populated by fetch-data.mjs
+│   └── *.json
 ├── types/
-│   └── postal.ts          # TypeScript interfaces
+│   └── pincode.ts
 ├── lib/
-│   ├── utils.ts           # toSlug, fromSlug
-│   └── postal.ts          # Data fetching + normalization
+│   ├── pincode.ts                  # Data fetching (disk-first, API fallback), grouping
+│   ├── states.ts                   # STATES array + STATES_BY_SLUG map
+│   ├── stateContent.ts             # Unique overview paragraphs for all 35 states/UTs
+│   └── utils.ts                    # toSlug, fromSlug
 ├── components/
-│   ├── Logo.tsx           # P² SVG logo
-│   ├── Navbar.tsx         # 3-row nav (logo, main links, province links)
-│   ├── Footer.tsx         # Province links + quick links
-│   ├── Faq.tsx            # FAQPage schema accordion
-│   ├── Breadcrumb.tsx     # BreadcrumbList schema
-│   └── SearchClient.tsx   # Client-side postal code search
+│   ├── Logo.tsx
+│   ├── Navbar.tsx
+│   ├── Footer.tsx
+│   ├── SearchClient.tsx
+│   ├── RecentlyViewed.tsx
+│   ├── PincodeTracker.tsx
+│   ├── PrefetchLinks.tsx
+│   ├── CookieConsent.tsx
+│   ├── CopyButton.tsx
+│   ├── ShareButtons.tsx
+│   ├── Breadcrumb.tsx
+│   └── Faq.tsx
 ├── app/
-│   ├── globals.css        # All styles (adapted from cfnet)
-│   ├── icon.svg           # P² favicon
-│   ├── layout.tsx         # Root layout + WebSite schema
-│   ├── page.tsx           # Homepage
+│   ├── globals.css
+│   ├── icon.svg
+│   ├── layout.tsx                  # Root layout, global JSON-LD, Google Fonts
+│   ├── page.tsx                    # Homepage
 │   ├── not-found.tsx
 │   ├── robots.ts
 │   ├── sitemap.ts
-│   └── province/
-│       └── [province]/
+│   ├── opengraph-image.tsx         # Homepage OG image (Satori)
+│   ├── about/page.tsx
+│   ├── contact/page.tsx
+│   ├── privacy-policy/page.tsx
+│   ├── cookie-policy/page.tsx
+│   └── state/
+│       └── [state]/
 │           ├── page.tsx
+│           ├── opengraph-image.tsx # Per-state OG image
 │           └── [district]/
 │               ├── page.tsx
-│               └── [postal]/
+│               └── [pincode]/
 │                   └── page.tsx
 └── public/
-    └── site.webmanifest
+    ├── CNAME                       # www.pincodefinder.net
+    ├── site.webmanifest
+    └── llms.txt
 ```
 
 ---
 
-## Deployment
+## Build & Deployment
 
-Build: `npm run build` → generates `out/` directory (static HTML)
-Deploy: Upload `out/` to any static host (Vercel, Netlify, GitHub Pages, S3)
+### Local Development
+```bash
+npm run dev          # Start dev server (fetches from API live)
+npm run fetch-data   # Download all 35 state JSONs to data/
+npm run build        # prebuild (fetch-data) + next build → out/
+```
 
-Environment variables:
-- `NEXT_PUBLIC_SITE_URL` — set to production domain (e.g. `https://www.postalcodenp.com`)
+### GitHub Actions CI (`deploy.yml`)
+1. Checkout → Install (`npm ci`)
+2. `npm run build` → triggers `prebuild` → downloads data → Next.js static export
+3. Upload `out/` → Deploy to GitHub Pages
+
+### Environment Variables
+| Variable | Default | Purpose |
+|---|---|---|
+| `NEXT_PUBLIC_SITE_URL` | `https://www.pincodefinder.net` | Canonical base URL for metadata + sitemap |
+| `NEXT_BASE_PATH` | `` | Base path (empty for custom domain) |
+
+---
+
+## Internal Linking Strategy
+
+Each page links to:
+1. **Up the hierarchy:** Breadcrumb (PIN → District → State → Home)
+2. **Same level:** Other PIN codes in same district, other districts in same state
+3. **Cross-state:** All other states/UTs pill links on every page
+4. **Prefetch:** First 4–6 likely-next pages via `<link rel="prefetch">` (client-side)
+
+---
+
+## Key Technical Decisions
+
+| Decision | Reason |
+|---|---|
+| `output: 'export'` | Fully static — deploys to GitHub Pages without a server |
+| Pre-download data script | API is flaky under parallel build load; disk reads are instant and reliable |
+| `staticPageGenerationTimeout: 300` | 21k pages need more than the 60s default |
+| Disk-first data reading | `readFileSync` in `lib/pincode.ts` — no network during page generation |
+| Control character stripping | `himachal_pradesh.json` and others contain invalid JSON control chars |
+| `'use client'` only where needed | `localStorage`, copy-to-clipboard, cookie consent — rest is pure SSG |
+| Satori OG images | Every `<div>` must have explicit `display: 'flex'`; no `<br>` tags |
+| CSS-only (no Tailwind) | Single `globals.css` file, all custom properties, full control |
