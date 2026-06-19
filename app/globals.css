@@ -527,6 +527,63 @@ footer { background: var(--navy-dark); color: rgba(255,255,255,0.8); margin-top:
   font-size: 0.75rem; color: rgba(255,255,255,0.4);
 }
 
+/* ── Sitemap page ────────────────────────────────────────────── */
+.sitemap-grid { display: flex; flex-direction: column; gap: 28px; }
+.sitemap-state {
+  border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
+}
+.sitemap-state-link {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--navy); color: #fff; padding: 14px 18px;
+  font-size: 1rem; font-weight: 800; text-decoration: none;
+  transition: background 0.15s;
+}
+.sitemap-state-link:hover { background: var(--navy-mid); }
+.sitemap-state-type {
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.5px; background: rgba(255,255,255,0.15);
+  padding: 2px 8px; border-radius: 4px; white-space: nowrap;
+}
+.sitemap-districts { padding: 10px 14px; }
+.sitemap-district {
+  border: 1px solid var(--border-lt); border-radius: 7px;
+  margin-bottom: 6px; overflow: hidden;
+}
+.sitemap-district-link {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px; cursor: pointer; font-size: 0.875rem; font-weight: 700;
+  color: var(--text); list-style: none; background: var(--bg-alt);
+  transition: background 0.12s;
+}
+.sitemap-district-link:hover { background: var(--bg-section); }
+.sitemap-district-link::-webkit-details-marker { display: none; }
+.sitemap-district-link a { color: var(--navy); text-decoration: none; }
+.sitemap-district-link a:hover { text-decoration: underline; }
+.sitemap-count {
+  font-size: 0.7rem; font-weight: 600; color: var(--text-muted);
+  background: var(--border-lt); padding: 2px 8px; border-radius: 10px; flex-shrink: 0;
+}
+.sitemap-locations {
+  list-style: none; padding: 8px 10px; display: flex; flex-direction: column; gap: 2px;
+}
+.sitemap-loc-link {
+  display: flex; align-items: center; gap: 8px;
+  padding: 5px 8px; border-radius: 5px; text-decoration: none;
+  transition: background 0.1s;
+}
+.sitemap-loc-link:hover { background: var(--bg-alt); }
+.sitemap-loc-code {
+  font-size: 0.78rem; font-weight: 700; color: #111;
+  background: var(--gold-light); padding: 2px 7px;
+  border-radius: 4px; font-family: monospace; flex-shrink: 0;
+  border: 1px solid #fde68a; min-width: 52px; text-align: center;
+}
+.sitemap-loc-name { font-size: 0.82rem; color: var(--text-mid); flex: 1; }
+.sitemap-loc-type {
+  font-size: 0.65rem; font-weight: 700; padding: 1px 6px; border-radius: 4px;
+  text-transform: uppercase; flex-shrink: 0;
+}
+
 /* ── Not found ──────────────────────────────────────────────── */
 .not-found { text-align: center; padding: 80px 20px; }
 .not-found-code { font-size: 5rem; font-weight: 900; color: var(--border); line-height: 1; }

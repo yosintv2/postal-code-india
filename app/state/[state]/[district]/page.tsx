@@ -53,97 +53,91 @@ export default async function DistrictPage({ params }: Props) {
 
   return (
     <>
-      <div className="container">
-        <div className="page-head">
-          <Breadcrumb items={[
-            { label: 'Home', href: '/' },
-            { label: state.stateName, href: `/state/${stateSlug}/` },
-            { label: `${district.districtName} District` },
-          ]} />
-          <h1 className="page-title">{district.districtName} PIN Codes</h1>
-          <p className="page-sub">{state.stateName} · {district.pincodes.length} PIN codes · {district.totalOffices} Post Offices</p>
+      <div className="page-head">
+        <Breadcrumb items={[
+          { label: 'Home', href: '/' },
+          { label: state.stateName, href: `/state/${stateSlug}/` },
+          { label: `${district.districtName} District` },
+        ]} />
+        <h1 className="page-title">{district.districtName} PIN Codes</h1>
+        <p className="page-sub">{state.stateName} · {district.pincodes.length} PIN codes · {district.totalOffices} Post Offices</p>
+      </div>
+
+      <section className="section">
+        <h2 className="section-heading">
+          <div className="accent-bar" />
+          All PIN Codes in {district.districtName}
+        </h2>
+        <div className="postal-table-wrap">
+          <table className="postal-table">
+            <thead>
+              <tr>
+                <th>PIN Code</th>
+                <th>Post Offices</th>
+                <th>Type</th>
+                <th>Delivery</th>
+              </tr>
+            </thead>
+            <tbody>
+              {district.pincodes.map(p => {
+                const deliveryCount = p.offices.filter(o => o.deliveryStatus === 'Delivery').length;
+                const mainType = p.offices.find(o => o.officeType === 'H.O')?.officeType
+                  ?? p.offices.find(o => o.officeType === 'S.O')?.officeType
+                  ?? p.offices[0]?.officeType ?? '';
+                const typeKey = mainType.replace('.', '').toLowerCase();
+                return (
+                  <tr key={p.pincode} className={p.hasHeadOffice ? 'row-ho' : ''}>
+                    <td>
+                      <Link href={`/state/${stateSlug}/${districtSlug}/${p.pincode}/`} className="postal-badge">
+                        {p.pincode}
+                      </Link>
+                    </td>
+                    <td>{p.offices.length}</td>
+                    <td>{mainType && <span className={`type-badge type-${typeKey}`}>{mainType}</span>}</td>
+                    <td>
+                      {deliveryCount > 0
+                        ? <span className="delivery-yes">{deliveryCount} Delivery</span>
+                        : <span className="delivery-no">Non-Delivery</span>}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
+      </section>
 
-        <section className="section">
-          <h2 className="section-heading">
-            <div className="accent-bar" />
-            All PIN Codes in {district.districtName}
-          </h2>
-          <div className="postal-table-wrap">
-            <table className="postal-table">
-              <thead>
-                <tr>
-                  <th>PIN Code</th>
-                  <th>Post Offices</th>
-                  <th>Type</th>
-                  <th>Delivery</th>
-                </tr>
-              </thead>
-              <tbody>
-                {district.pincodes.map(p => {
-                  const deliveryCount = p.offices.filter(o => o.deliveryStatus === 'Delivery').length;
-                  const mainType = p.offices.find(o => o.officeType === 'H.O')?.officeType
-                    ?? p.offices.find(o => o.officeType === 'S.O')?.officeType
-                    ?? p.offices[0]?.officeType ?? '';
-                  const typeKey = mainType.replace('.', '').toLowerCase();
-                  return (
-                    <tr key={p.pincode} className={p.hasHeadOffice ? 'row-ho' : ''}>
-                      <td>
-                        <Link href={`/state/${stateSlug}/${districtSlug}/${p.pincode}/`} className="postal-badge">
-                          {p.pincode}
-                        </Link>
-                      </td>
-                      <td>{p.offices.length}</td>
-                      <td>
-                        {mainType && (
-                          <span className={`type-badge type-${typeKey}`}>{mainType}</span>
-                        )}
-                      </td>
-                      <td>
-                        {deliveryCount > 0
-                          ? <span className="delivery-yes">{deliveryCount} Delivery</span>
-                          : <span className="delivery-no">Non-Delivery</span>}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        {otherDistricts.length > 0 && (
-          <section className="section section-alt">
-            <h2 className="section-heading">
-              <div className="accent-bar" />
-              Other Districts in {state.stateName}
-            </h2>
-            <div className="district-pill-list">
-              {otherDistricts.map(d => (
-                <Link key={d.districtSlug} href={`/state/${stateSlug}/${d.districtSlug}/`} className="district-pill">
-                  {d.districtName}
-                </Link>
-              ))}
-            </div>
-          </section>
-        )}
-
+      {otherDistricts.length > 0 && (
         <section className="section section-alt">
           <h2 className="section-heading">
             <div className="accent-bar" />
-            Other States &amp; Union Territories
+            Other Districts in {state.stateName}
           </h2>
-          <div className="province-links">
-            {otherStates.map(s => (
-              <Link key={s.slug} href={`/state/${s.slug}/`} className="province-link-pill">{s.name}</Link>
+          <div className="district-pill-list">
+            {otherDistricts.map(d => (
+              <Link key={d.districtSlug} href={`/state/${stateSlug}/${d.districtSlug}/`} className="district-pill">
+                {d.districtName}
+              </Link>
             ))}
           </div>
         </section>
+      )}
 
-        <section className="section">
-          <Faq items={faqItems} title={`FAQ: ${district.districtName} PIN Codes`} />
-        </section>
-      </div>
+      <section className="section section-alt">
+        <h2 className="section-heading">
+          <div className="accent-bar" />
+          Other States &amp; Union Territories
+        </h2>
+        <div className="province-links">
+          {otherStates.map(s => (
+            <Link key={s.slug} href={`/state/${s.slug}/`} className="province-link-pill">{s.name}</Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="section">
+        <Faq items={faqItems} title={`FAQ: ${district.districtName} PIN Codes`} />
+      </section>
     </>
   );
 }
