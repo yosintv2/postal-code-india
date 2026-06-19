@@ -89,11 +89,11 @@ export default function SearchClient({ entries }: { entries: SearchEntry[] }) {
             </p>
           ) : (
             results.map((e, i) => (
-              <Link key={i} href={e.href} className="search-result-item" role="option">
-                <span className="search-result-code">{e.pincode}</span>
-                <span className="search-result-text">
-                  <span className="search-result-name">{e.officeName}</span>
-                  <span className="search-result-meta">{e.districtName} · {e.stateName}</span>
+              <Link key={i} href={e.href} className="rv-item" role="option">
+                <span className="rv-pin">{e.pincode}</span>
+                <span className="rv-info">
+                  <span className="rv-name">{e.officeName}</span>
+                  <span className="rv-loc">{e.districtName} · {e.stateName}</span>
                 </span>
               </Link>
             ))
