@@ -3,7 +3,7 @@ import type { MetadataRoute } from 'next';
 export const dynamic = 'force-static';
 
 export default function robots(): MetadataRoute.Robots {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.pincodein.com';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://india.singhyogendra.com.np';
   return {
     rules: { userAgent: '*', allow: '/' },
     sitemap: `${siteUrl}/sitemap.xml`,

@@ -6,7 +6,7 @@ import Footer from '@/components/Footer';
 
 const inter = Inter({ subsets: ['latin'] });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.pincodein.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://india.singhyogendra.com.np';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

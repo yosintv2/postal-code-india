@@ -5,7 +5,7 @@ import { STATES } from '@/lib/states';
 import { fetchStateOffices } from '@/lib/pincode';
 import { toSlug } from '@/lib/utils';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.pincodein.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://india.singhyogendra.com.np';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const entries: MetadataRoute.Sitemap = [
