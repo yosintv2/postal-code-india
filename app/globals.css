@@ -1157,3 +1157,7 @@ footer { background: var(--navy-dark); color: rgba(255,255,255,0.8); margin-top:
 }
 .chatbot-send:hover { background: var(--red-dark); }
 .chatbot-send:disabled { background: var(--border); cursor: not-allowed; }
+
+/* PIN Code SVG Info Card */
+.pin-card-wrap { margin: 0 auto; }
+.pin-svg-card { width: 100%; height: auto; display: block; border-radius: 14px; overflow: hidden; }
