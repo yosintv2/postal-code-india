@@ -609,3 +609,145 @@ footer { background: var(--navy-dark); color: rgba(255,255,255,0.8); margin-top:
 @media (max-width: 400px) {
   .district-grid { grid-template-columns: 1fr; }
 }
+
+/* ── State / District overview prose ────────────────────────── */
+.state-overview, .district-overview {
+  background: var(--bg-alt);
+  border-left: 4px solid var(--red);
+  border-radius: 0 8px 8px 0;
+  padding: 16px 20px;
+}
+.state-overview-text, .district-overview-text {
+  font-size: 0.92rem; line-height: 1.75; color: var(--text-mid);
+  margin-bottom: 8px;
+}
+.state-overview-note {
+  font-size: 0.82rem; color: var(--text-muted); line-height: 1.5;
+}
+.state-overview-text:last-child, .district-overview-text:last-child { margin-bottom: 0; }
+
+/* ── PIN Code Validator ─────────────────────────────────────── */
+.validator-wrap { max-width: 480px; }
+.validator-input-row { display: flex; flex-direction: column; gap: 10px; }
+.validator-input {
+  width: 100%; padding: 14px 18px;
+  font-size: 1.5rem; font-weight: 700; letter-spacing: 4px;
+  border: 2px solid var(--border); border-radius: 10px;
+  outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+  font-family: monospace; text-align: center; color: var(--text);
+}
+.validator-input:focus { border-color: var(--red); box-shadow: 0 0 0 3px rgba(249,115,22,0.12); }
+.validator-input-success { border-color: var(--green) !important; box-shadow: 0 0 0 3px rgba(22,163,74,0.12) !important; }
+.validator-input-error { border-color: #dc2626 !important; box-shadow: 0 0 0 3px rgba(220,38,38,0.1) !important; }
+.validator-dots {
+  display: flex; gap: 6px; justify-content: center;
+}
+.validator-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--border); transition: background 0.2s;
+}
+.validator-dot.filled { background: var(--red); }
+.validator-dot.filled-ok { background: var(--green); }
+.validator-result {
+  margin-top: 14px; background: var(--bg-alt);
+  border: 1px solid var(--green); border-radius: 10px;
+  padding: 14px 18px;
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+}
+.validator-result-pin {
+  font-size: 1.25rem; font-weight: 900; color: var(--navy);
+  font-family: monospace; flex-shrink: 0;
+}
+.validator-result-info { flex: 1; min-width: 0; }
+.validator-result-name { font-size: 0.9rem; font-weight: 700; color: var(--text); }
+.validator-result-loc { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+.validator-result-count {
+  font-size: 0.75rem; color: var(--text-muted);
+  background: var(--border-lt); padding: 2px 8px; border-radius: 10px;
+}
+.validator-result-link {
+  display: inline-flex; align-items: center;
+  background: var(--red); color: #fff;
+  padding: 7px 14px; border-radius: 7px;
+  font-size: 0.82rem; font-weight: 700; text-decoration: none;
+  transition: background 0.15s; flex-shrink: 0;
+}
+.validator-result-link:hover { background: var(--red-dark); }
+.validator-not-found {
+  margin-top: 12px; padding: 12px 16px;
+  background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px;
+  font-size: 0.86rem; color: #dc2626;
+}
+
+/* ── Recently Viewed ────────────────────────────────────────── */
+.recently-viewed-section { /* inherits section padding */ }
+.recently-viewed-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+.recently-viewed-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px; border: 1px solid var(--border);
+  border-radius: 9px; text-decoration: none;
+  transition: border-color 0.15s, box-shadow 0.15s; background: #fff;
+}
+.recently-viewed-item:hover { border-color: var(--red); box-shadow: 0 2px 8px rgba(249,115,22,0.08); }
+.recently-viewed-pin {
+  font-size: 0.9rem; font-weight: 900; font-family: monospace;
+  color: var(--navy); background: var(--gold-light);
+  padding: 4px 8px; border-radius: 5px; flex-shrink: 0;
+}
+.recently-viewed-info { min-width: 0; }
+.recently-viewed-name {
+  font-size: 0.82rem; font-weight: 600; color: var(--text);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.recently-viewed-loc {
+  font-size: 0.74rem; color: var(--text-muted);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* ── Print styles ────────────────────────────────────────────── */
+@media print {
+  .navbar, .footer, .share-btn, .copy-btn, .province-links,
+  .nearby-list, .faq-item, .breadcrumb, .steps-grid,
+  .recently-viewed-section, .validator-wrap,
+  .province-grid, .district-grid, .district-pill-list { display: none !important; }
+
+  body { font-size: 12pt; color: #000; background: #fff; }
+  .container { max-width: 100%; padding: 0; }
+
+  .postal-detail {
+    display: block !important;
+    margin: 0 !important; padding: 0 !important;
+    background: none !important; border: none !important;
+    box-shadow: none !important;
+  }
+  .postal-code-number { font-size: 36pt; color: #000; }
+  .postal-code-label { font-size: 10pt; color: #555; }
+  .postal-info-grid { margin-top: 12pt; }
+  .postal-info-row { border-bottom: 0.5pt solid #ccc; padding: 4pt 0; }
+  .postal-info-label { font-size: 8pt; color: #555; }
+  .postal-info-value { font-size: 11pt; font-weight: 700; }
+
+  .address-box {
+    border: 1pt solid #000; padding: 12pt; margin: 12pt 0;
+    font-size: 11pt; page-break-inside: avoid;
+  }
+
+  .postal-table { font-size: 9pt; }
+  .postal-table th { background: #eee !important; color: #000 !important; }
+  .postal-table td, .postal-table th { border: 0.5pt solid #ccc; padding: 4pt 6pt; }
+  .row-ho { background: #fffbea !important; }
+
+  .section-heading { border-bottom: 0.5pt solid #ccc; padding-bottom: 4pt; }
+  .accent-bar { display: none; }
+
+  a[href]::after { content: none; }
+  .page-head { margin-bottom: 12pt; }
+  .page-title { font-size: 20pt; }
+  .page-sub { font-size: 10pt; color: #555; }
+
+  @page { margin: 2cm; }
+}

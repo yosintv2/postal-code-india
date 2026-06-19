@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
   images: { unoptimized: true },
   basePath,
   assetPrefix: basePath || undefined,
+  staticPageGenerationTimeout: 300,
 };
 
 export default nextConfig;

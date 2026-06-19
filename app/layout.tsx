@@ -40,6 +40,29 @@ const jsonLd = {
       url: siteUrl,
       logo: { '@type': 'ImageObject', url: `${siteUrl}/icon.svg` },
     },
+    {
+      '@type': 'GovernmentOrganization',
+      '@id': 'https://www.indiapost.gov.in/#organization',
+      name: 'India Post',
+      alternateName: 'Department of Posts, Ministry of Communications, Government of India',
+      url: 'https://www.indiapost.gov.in',
+      logo: 'https://www.indiapost.gov.in/images/logo.png',
+      sameAs: [
+        'https://en.wikipedia.org/wiki/India_Post',
+        'https://www.wikidata.org/wiki/Q1796903',
+      ],
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Dak Bhavan, Sansad Marg',
+        addressLocality: 'New Delhi',
+        postalCode: '110001',
+        addressCountry: 'IN',
+      },
+      areaServed: {
+        '@type': 'Country',
+        name: 'India',
+      },
+    },
   ],
 };
 

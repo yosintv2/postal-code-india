@@ -7,6 +7,8 @@ import Breadcrumb from '@/components/Breadcrumb';
 import Faq from '@/components/Faq';
 import CopyButton from '@/components/CopyButton';
 import ShareButtons from '@/components/ShareButtons';
+import PincodeTracker from '@/components/PincodeTracker';
+import PrefetchLinks from '@/components/PrefetchLinks';
 
 interface Props { params: Promise<{ state: string; district: string; pincode: string }> }
 
@@ -35,11 +37,29 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { state, district, group } = result;
   const mainOffice = group.offices.find(o => o.officeType === 'H.O') ?? group.offices[0];
   const title = `PIN Code ${pincode} — ${district.districtName}, ${state.stateName} | PincodeIN`;
-  const desc = `PIN code ${pincode} covers ${group.offices.length} post offices in ${district.districtName}, ${state.stateName}. ${mainOffice ? `Main office: ${mainOffice.officeName}.` : ''} Find delivery status and address format.`;
+  const desc = `PIN code ${pincode} covers ${group.offices.length} post office${group.offices.length > 1 ? 's' : ''} in ${district.districtName}, ${state.stateName}. ${mainOffice ? `Main office: ${mainOffice.officeName}.` : ''} Find delivery status, address format, and nearby PIN codes.`;
+  const keywords = [
+    `${pincode} pin code`,
+    `pin code ${pincode}`,
+    `${pincode} pincode`,
+    `pincode ${pincode}`,
+    `what is pin code ${pincode}`,
+    `${pincode} post office`,
+    `${pincode} india`,
+    `${pincode} ${district.districtName}`,
+    `${pincode} ${state.stateName}`,
+    `${district.districtName} ${pincode} pin code`,
+    `${state.stateName} ${pincode}`,
+    ...(mainOffice ? [`${mainOffice.officeName} pin code`, `${mainOffice.officeName} pincode`] : []),
+    `pin code of ${district.districtName}`,
+    `${district.districtName} postal code`,
+    `${pincode} area`,
+    `${pincode} delivery status`,
+  ].join(', ');
   return {
     title,
     description: desc,
-    keywords: `${pincode} pin code, pin code ${pincode}, ${district.districtName} pin code, ${pincode} area india, what is pin code ${pincode}, ${pincode} ${state.stateName}`,
+    keywords,
     alternates: { canonical: `/state/${stateSlug}/${districtSlug}/${pincode}/` },
     openGraph: { title, description: desc },
   };
@@ -63,15 +83,22 @@ export default async function PincodePage({ params }: Props) {
   const nearbyPincodes = district.pincodes.filter(p => p.pincode !== pincode).slice(0, 10);
   const otherStates = STATES.filter(s => s.slug !== stateSlug);
 
+  // Prefetch nearby PIN pages
+  const prefetchUrls = nearbyPincodes.slice(0, 4).map(
+    p => `/state/${stateSlug}/${districtSlug}/${p.pincode}/`,
+  );
+
   const faqs = [
-    { q: `What is PIN code ${pincode}?`, a: `PIN code ${pincode} is assigned to ${group.offices.length} post office${group.offices.length > 1 ? 's' : ''} in ${district.districtName}, ${state.stateName}, India.` },
+    { q: `What is PIN code ${pincode}?`, a: `PIN code ${pincode} is a 6-digit postal code assigned to ${group.offices.length} post office${group.offices.length > 1 ? 's' : ''} in ${district.districtName}, ${state.stateName}, India. It is used for addressing mail and identifying delivery zones.` },
     { q: `Which district does PIN code ${pincode} belong to?`, a: `PIN code ${pincode} belongs to ${district.districtName} district in ${state.stateName}, India.` },
     { q: `Which state is PIN code ${pincode} in?`, a: `PIN code ${pincode} is in ${state.stateName}, ${info.type === 'ut' ? 'a Union Territory' : 'a state'} of India.${info.capital ? ` The capital is ${info.capital}.` : ''}` },
-    { q: `How do I write an address using PIN code ${pincode}?`, a: `Write: [Recipient Name] / [Building/Street/Locality] / ${district.districtName}, ${state.stateName} — ${pincode} / INDIA` },
-    { q: `Is PIN code ${pincode} a delivery PIN?`, a: group.offices.some(o => o.deliveryStatus === 'Delivery') ? `Yes, PIN code ${pincode} has post offices with active mail delivery.` : `PIN code ${pincode} is primarily a non-delivery administrative code.` },
-    { q: `What are nearby PIN codes to ${pincode}?`, a: nearbyPincodes.length > 0 ? `Nearby PIN codes in ${district.districtName} include: ${nearbyPincodes.slice(0, 5).map(p => p.pincode).join(', ')}.` : `${pincode} is the only PIN code in ${district.districtName}.` },
-    { q: `What does H.O mean for PIN code ${pincode}?`, a: `H.O stands for Head Office — the main post office of a district. ${headOffice ? `${headOffice.officeName} is the Head Office at PIN code ${pincode}.` : `PIN code ${pincode} does not have a Head Office.`}` },
-    { q: `Can I use PIN code ${pincode} for courier deliveries?`, a: `Yes. PIN code ${pincode} in ${district.districtName}, ${state.stateName} is accepted by India Post and all major courier services including DTDC, Blue Dart, Delhivery, Amazon, and Flipkart Logistics.` },
+    { q: `How do I write an address using PIN code ${pincode}?`, a: `Format your address as: [Recipient Name] / [Building / Street / Locality] / ${district.districtName}, ${state.stateName} — ${pincode} / INDIA` },
+    { q: `Is PIN code ${pincode} a delivery PIN?`, a: group.offices.some(o => o.deliveryStatus === 'Delivery') ? `Yes, PIN code ${pincode} has active mail delivery. ${group.offices.filter(o => o.deliveryStatus === 'Delivery').length} out of ${group.offices.length} post offices here provide delivery service.` : `PIN code ${pincode} is a non-delivery code used for administrative or relay purposes in the postal system.` },
+    { q: `What are nearby PIN codes to ${pincode}?`, a: nearbyPincodes.length > 0 ? `Nearby PIN codes in ${district.districtName} include: ${nearbyPincodes.slice(0, 6).map(p => p.pincode).join(', ')}. Browse all ${district.pincodes.length} PIN codes in ${district.districtName}.` : `${pincode} is the only PIN code in ${district.districtName}.` },
+    { q: `What does H.O mean for PIN code ${pincode}?`, a: `H.O stands for Head Office — the primary post office of a postal division. ${headOffice ? `${headOffice.officeName} is the Head Office at PIN code ${pincode}, serving as the hub for sub offices and branch offices in the area.` : `PIN code ${pincode} does not have a Head Office.`}` },
+    { q: `Can I use PIN code ${pincode} for courier deliveries?`, a: `Yes. PIN code ${pincode} in ${district.districtName}, ${state.stateName} is accepted by India Post and all major courier services including DTDC, Blue Dart, Delhivery, Amazon Logistics, and Flipkart Logistics.` },
+    { q: `What circle does PIN code ${pincode} fall under?`, a: mainOffice?.circleName ? `PIN code ${pincode} falls under the ${mainOffice.circleName} postal circle. The circle is the highest administrative unit in India Post and oversees all post offices in the region.` : `PIN code ${pincode} is administered under the ${state.stateName} postal circle.` },
+    { q: `What division manages PIN code ${pincode}?`, a: mainOffice?.divisionName ? `PIN code ${pincode} is managed by the ${mainOffice.divisionName} postal division, which oversees delivery and administrative operations for post offices in this area.` : `PIN code ${pincode} is managed under the ${district.districtName} division of ${state.stateName} postal circle.` },
   ];
 
   const jsonLd = [
@@ -82,6 +109,20 @@ export default async function PincodePage({ params }: Props) {
       addressLocality: district.districtName,
       addressRegion: state.stateName,
       addressCountry: 'IN',
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'PostOffice',
+      name: mainOffice?.officeName ?? `${district.districtName} Post Office`,
+      identifier: pincode,
+      address: {
+        '@type': 'PostalAddress',
+        postalCode: pincode,
+        addressLocality: mainOffice?.taluk && mainOffice.taluk !== 'NA' ? mainOffice.taluk : district.districtName,
+        addressRegion: state.stateName,
+        addressCountry: 'IN',
+      },
+      ...(headOffice ? { additionalType: 'https://schema.org/GovernmentOffice' } : {}),
     },
     {
       '@context': 'https://schema.org',
@@ -100,6 +141,16 @@ export default async function PincodePage({ params }: Props) {
         <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       ))}
 
+      <PrefetchLinks hrefs={prefetchUrls} />
+      <PincodeTracker
+        pincode={pincode}
+        officeName={mainOffice?.officeName ?? pincode}
+        districtName={district.districtName}
+        stateName={state.stateName}
+        stateSlug={stateSlug}
+        districtSlug={districtSlug}
+      />
+
       <div className="page-head">
         <Breadcrumb items={[
           { label: 'Home', href: '/' },
@@ -109,7 +160,7 @@ export default async function PincodePage({ params }: Props) {
         ]} />
       </div>
 
-      {/* Hero — uses margin: 0 -16px to escape container and go full-width */}
+      {/* Hero */}
       <section className="postal-detail">
         <div className="postal-code-hero">
           <div className="postal-code-label">PIN Code</div>
