@@ -9,6 +9,7 @@ import { STATES } from '@/lib/states';
 const MAIN_LINKS = [
   { href: '/', label: 'Home' },
   { href: '/#states', label: 'All States' },
+  { href: '/blog/', label: 'Blog' },
 ];
 
 const TOP_STATES = [

@@ -22,6 +22,8 @@ export default function Footer() {
               Data sourced from India Post. For official information, visit indiapost.gov.in.
             </p>
             <div className="footer-legal-links">
+              <Link href="/blog/" className="footer-legal-link">Blog</Link>
+              <span className="footer-legal-sep">·</span>
               <Link href="/about/" className="footer-legal-link">About Us</Link>
               <span className="footer-legal-sep">·</span>
               <Link href="/contact/" className="footer-legal-link">Contact</Link>
