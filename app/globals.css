@@ -749,3 +749,279 @@ footer { background: var(--navy-dark); color: rgba(255,255,255,0.8); margin-top:
 
   @page { margin: 2cm; }
 }
+
+/* ── Prose pages (About, Privacy, etc.) ─────────────────────── */
+.prose-section {
+  max-width: 780px;
+}
+.prose-section h2 {
+  font-size: 1.15rem; font-weight: 800; color: var(--navy);
+  margin: 28px 0 10px; padding-bottom: 6px;
+  border-bottom: 2px solid var(--border-lt);
+}
+.prose-section h2:first-child { margin-top: 0; }
+.prose-section p {
+  font-size: 0.93rem; line-height: 1.8; color: var(--text-mid); margin-bottom: 14px;
+}
+.prose-section ul {
+  margin: 0 0 14px 20px;
+  font-size: 0.93rem; line-height: 1.8; color: var(--text-mid);
+}
+.prose-section li { margin-bottom: 6px; }
+.prose-section a { color: var(--red); text-decoration: underline; }
+.prose-section a:hover { color: var(--red-dark); }
+.prose-section code {
+  font-size: 0.82rem; background: var(--bg-section);
+  padding: 1px 6px; border-radius: 4px; font-family: monospace;
+}
+.about-disclaimer {
+  margin-top: 24px; padding: 14px 18px; background: var(--bg-alt);
+  border-left: 4px solid var(--border); border-radius: 0 8px 8px 0;
+  font-size: 0.83rem; color: var(--text-muted); line-height: 1.6;
+}
+
+/* About stats grid */
+.about-stats-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 16px; margin: 20px 0;
+}
+.about-stat {
+  background: var(--bg-alt); border-radius: 10px;
+  padding: 20px 16px; text-align: center;
+  border: 1px solid var(--border-lt);
+}
+.about-stat-num {
+  font-size: 1.8rem; font-weight: 900; color: var(--red); line-height: 1;
+}
+.about-stat-label {
+  font-size: 0.75rem; color: var(--text-muted); margin-top: 6px; font-weight: 600;
+}
+
+/* ── Contact page ────────────────────────────────────────────── */
+.contact-layout {
+  display: grid; grid-template-columns: 1fr 1.4fr; gap: 48px; align-items: start;
+}
+@media (max-width: 768px) { .contact-layout { grid-template-columns: 1fr; } }
+.contact-info h2 {
+  font-size: 1.2rem; font-weight: 800; color: var(--navy); margin-bottom: 12px;
+}
+.contact-info p { font-size: 0.9rem; line-height: 1.75; color: var(--text-mid); margin-bottom: 20px; }
+.contact-cards { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+.contact-card {
+  display: flex; align-items: flex-start; gap: 14px;
+  background: var(--bg-alt); border-radius: 10px; padding: 14px 16px;
+  border: 1px solid var(--border-lt);
+}
+.contact-card-icon {
+  font-size: 1.2rem; flex-shrink: 0; margin-top: 1px;
+}
+.contact-card-label { font-size: 0.73rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); }
+.contact-card-value { font-size: 0.9rem; font-weight: 600; color: var(--text); margin-top: 2px; }
+.contact-card-value a { color: var(--red); text-decoration: underline; }
+.contact-note {
+  font-size: 0.82rem; color: var(--text-muted); line-height: 1.6;
+  background: var(--bg-alt); padding: 12px 14px; border-radius: 8px;
+  border-left: 3px solid var(--border);
+}
+.contact-note a { color: var(--red); }
+
+.contact-form-wrap {
+  background: var(--bg-alt); border-radius: 14px; padding: 28px;
+  border: 1px solid var(--border-lt);
+}
+.contact-form { display: flex; flex-direction: column; gap: 16px; }
+.form-row { display: flex; flex-direction: column; gap: 6px; }
+.form-label { font-size: 0.82rem; font-weight: 700; color: var(--text-mid); }
+.form-input {
+  width: 100%; padding: 10px 14px;
+  border: 1.5px solid var(--border); border-radius: 8px;
+  font-size: 0.9rem; font-family: inherit; color: var(--text);
+  background: #fff; transition: border-color 0.15s, box-shadow 0.15s;
+  outline: none;
+}
+.form-input:focus { border-color: var(--red); box-shadow: 0 0 0 3px rgba(249,115,22,0.1); }
+.form-textarea { resize: vertical; min-height: 120px; }
+.form-submit {
+  background: var(--red); color: #fff;
+  padding: 12px 24px; border: none; border-radius: 8px;
+  font-size: 0.95rem; font-weight: 700; cursor: pointer;
+  font-family: inherit; transition: background 0.15s;
+}
+.form-submit:hover { background: var(--red-dark); }
+.contact-success {
+  text-align: center; padding: 32px 16px;
+}
+.contact-success-icon {
+  width: 56px; height: 56px; background: var(--green-lt);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; color: var(--green); margin: 0 auto 16px; font-weight: 900;
+}
+.contact-success h3 { font-size: 1.1rem; font-weight: 800; color: var(--text); margin-bottom: 8px; }
+.contact-success p { font-size: 0.88rem; color: var(--text-muted); }
+.contact-success a { color: var(--red); }
+
+/* ── Cookie table (cookie-policy page) ──────────────────────── */
+.consent-panel {
+  background: var(--bg-alt); border-radius: 12px; padding: 24px;
+  border: 1px solid var(--border); margin-bottom: 8px;
+}
+.consent-panel h2 { font-size: 1.1rem; font-weight: 800; color: var(--navy); margin-bottom: 8px; }
+.consent-panel p { font-size: 0.88rem; color: var(--text-mid); margin-bottom: 16px; }
+.consent-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.consent-btn {
+  padding: 9px 20px; border-radius: 8px; border: none;
+  font-size: 0.875rem; font-weight: 700; cursor: pointer;
+  font-family: inherit; transition: all 0.15s;
+}
+.consent-btn-accept { background: var(--red); color: #fff; }
+.consent-btn-accept:hover { background: var(--red-dark); }
+.consent-btn-essential { background: var(--bg-section); color: var(--text); border: 1px solid var(--border); }
+.consent-btn-essential:hover { background: var(--border-lt); }
+.consent-btn-withdraw { background: none; color: var(--text-muted); border: 1px solid var(--border); }
+.consent-btn-withdraw:hover { color: #dc2626; border-color: #dc2626; }
+.cookie-badge {
+  display: inline-block; font-size: 0.68rem; font-weight: 700;
+  padding: 2px 8px; border-radius: 999px; text-transform: uppercase;
+}
+.cookie-badge.essential { background: var(--green-lt); color: var(--green); }
+.cookie-badge.analytics { background: #dbeafe; color: #1d4ed8; }
+.cookie-badge.advertising { background: var(--gold-light); color: #92400e; }
+.cookie-table-wrap { overflow-x: auto; border-radius: 8px; border: 1px solid var(--border); margin: 16px 0; }
+.cookie-table { width: 100%; border-collapse: collapse; min-width: 500px; font-size: 0.85rem; }
+.cookie-table th {
+  background: var(--navy); color: #fff; padding: 10px 14px;
+  text-align: left; font-size: 0.78rem; font-weight: 700; text-transform: uppercase;
+}
+.cookie-table td { padding: 10px 14px; border-bottom: 1px solid var(--border-lt); color: var(--text-mid); }
+.cookie-table tr:last-child td { border-bottom: none; }
+.cookie-table a { color: var(--red); }
+
+/* ── Footer legal links ──────────────────────────────────────── */
+.footer-legal-links {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 4px;
+  margin-top: 12px;
+}
+.footer-legal-link {
+  font-size: 0.78rem; color: rgba(255,255,255,0.55); text-decoration: none;
+  transition: color 0.15s;
+}
+.footer-legal-link:hover { color: #fff; }
+.footer-legal-sep { color: rgba(255,255,255,0.25); font-size: 0.78rem; }
+
+/* ── Cookie Consent Bar ──────────────────────────────────────── */
+.cookie-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 999;
+  background: var(--navy-dark); color: #fff;
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.25);
+  padding: 16px;
+}
+.cookie-bar-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
+}
+.cookie-bar-text { flex: 1; min-width: 260px; }
+.cookie-bar-title {
+  display: block; font-size: 0.95rem; font-weight: 800; margin-bottom: 4px;
+}
+.cookie-bar-text p {
+  font-size: 0.82rem; color: rgba(255,255,255,0.75); line-height: 1.5; margin: 0;
+}
+.cookie-bar-link { color: #f97316; text-decoration: underline; }
+.cookie-bar-actions { display: flex; gap: 10px; flex-shrink: 0; }
+.cookie-btn {
+  padding: 9px 18px; border-radius: 8px; border: none;
+  font-size: 0.85rem; font-weight: 700; cursor: pointer;
+  font-family: inherit; white-space: nowrap; transition: all 0.15s;
+}
+.cookie-btn-accept { background: var(--red); color: #fff; }
+.cookie-btn-accept:hover { background: var(--red-dark); }
+.cookie-btn-essential {
+  background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.85);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.cookie-btn-essential:hover { background: rgba(255,255,255,0.18); }
+
+/* ── Chatbot ─────────────────────────────────────────────────── */
+.chatbot-fab {
+  position: fixed; bottom: 80px; right: 20px; z-index: 900;
+  width: 52px; height: 52px; border-radius: 50%;
+  background: var(--red); color: #fff; border: none;
+  box-shadow: 0 4px 16px rgba(249,115,22,0.4);
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: transform 0.2s, background 0.15s, box-shadow 0.2s;
+}
+.chatbot-fab:hover { transform: scale(1.08); background: var(--red-dark); box-shadow: 0 6px 20px rgba(249,115,22,0.5); }
+.chatbot-fab-open { background: var(--navy); box-shadow: 0 4px 16px rgba(26,58,107,0.4); }
+.chatbot-fab-open:hover { background: var(--navy-dark); box-shadow: 0 6px 20px rgba(13,32,64,0.5); }
+
+.chatbot-panel {
+  position: fixed; bottom: 144px; right: 20px; z-index: 900;
+  width: 340px; max-height: 480px;
+  background: #fff; border-radius: 16px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  display: flex; flex-direction: column; overflow: hidden;
+  border: 1px solid var(--border);
+}
+@media (max-width: 400px) { .chatbot-panel { width: calc(100vw - 24px); right: 12px; } }
+
+.chatbot-header {
+  background: var(--navy); color: #fff;
+  padding: 14px 16px; display: flex; align-items: center;
+  justify-content: space-between; flex-shrink: 0;
+}
+.chatbot-header-info { display: flex; align-items: center; gap: 10px; }
+.chatbot-avatar { font-size: 1.4rem; }
+.chatbot-name { font-size: 0.9rem; font-weight: 800; }
+.chatbot-status { font-size: 0.72rem; color: rgba(255,255,255,0.6); margin-top: 1px; }
+.chatbot-close {
+  background: none; border: none; color: rgba(255,255,255,0.7);
+  cursor: pointer; font-size: 1rem; padding: 4px; line-height: 1;
+  transition: color 0.15s;
+}
+.chatbot-close:hover { color: #fff; }
+
+.chatbot-messages {
+  flex: 1; overflow-y: auto; padding: 14px;
+  display: flex; flex-direction: column; gap: 10px;
+  background: var(--bg-alt);
+}
+.chat-msg { display: flex; }
+.chat-msg-bot { justify-content: flex-start; }
+.chat-msg-user { justify-content: flex-end; }
+.chat-bubble {
+  max-width: 82%; padding: 9px 13px; border-radius: 12px;
+  font-size: 0.83rem; line-height: 1.55; white-space: pre-line;
+}
+.chat-msg-bot .chat-bubble { background: #fff; color: var(--text); border: 1px solid var(--border-lt); border-radius: 4px 12px 12px 12px; }
+.chat-msg-user .chat-bubble { background: var(--red); color: #fff; border-radius: 12px 4px 12px 12px; }
+
+.chatbot-quick {
+  padding: 10px 12px; display: flex; flex-wrap: wrap; gap: 6px;
+  border-top: 1px solid var(--border-lt); background: #fff; flex-shrink: 0;
+}
+.chatbot-quick-btn {
+  font-size: 0.75rem; padding: 5px 10px; border-radius: 999px;
+  border: 1px solid var(--border); background: var(--bg-alt);
+  color: var(--text-mid); cursor: pointer; font-family: inherit;
+  transition: all 0.12s; font-weight: 600;
+}
+.chatbot-quick-btn:hover { border-color: var(--red); color: var(--red); background: #fff7f0; }
+
+.chatbot-input-row {
+  display: flex; gap: 8px; padding: 10px 12px;
+  border-top: 1px solid var(--border-lt); background: #fff; flex-shrink: 0;
+}
+.chatbot-input {
+  flex: 1; padding: 8px 12px; border: 1.5px solid var(--border);
+  border-radius: 8px; font-size: 0.85rem; font-family: inherit;
+  outline: none; transition: border-color 0.15s;
+}
+.chatbot-input:focus { border-color: var(--red); }
+.chatbot-send {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: var(--red); color: #fff; border: none;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s; flex-shrink: 0;
+}
+.chatbot-send:hover { background: var(--red-dark); }
+.chatbot-send:disabled { background: var(--border); cursor: not-allowed; }

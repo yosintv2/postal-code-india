@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import CookieConsent from '@/components/CookieConsent';
+import Chatbot from '@/components/Chatbot';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.pincodefinder.net';
 
@@ -83,6 +85,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
         </div>
         <Footer />
+        <CookieConsent />
+        <Chatbot />
       </body>
     </html>
   );

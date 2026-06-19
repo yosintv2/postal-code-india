@@ -16,11 +16,20 @@ export default function Footer() {
               <span className="footer-brand-name">PinCodeFinder</span>
             </div>
             <p className="footer-desc">
-              India&apos;s most complete PIN code directory. Find post offices, delivery status, and addresses across all states and union territories.
+              India&apos;s free PIN code directory. Find post offices, delivery status, and addresses across all 35 states and union territories.
             </p>
             <p className="footer-disclaimer">
               Data sourced from India Post. For official information, visit indiapost.gov.in.
             </p>
+            <div className="footer-legal-links">
+              <Link href="/about/" className="footer-legal-link">About Us</Link>
+              <span className="footer-legal-sep">·</span>
+              <Link href="/contact/" className="footer-legal-link">Contact</Link>
+              <span className="footer-legal-sep">·</span>
+              <Link href="/privacy-policy/" className="footer-legal-link">Privacy Policy</Link>
+              <span className="footer-legal-sep">·</span>
+              <Link href="/cookie-policy/" className="footer-legal-link">Manage Cookies</Link>
+            </div>
           </div>
           <div>
             <div className="footer-col-title">States</div>

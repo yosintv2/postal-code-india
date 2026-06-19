@@ -1,0 +1,56 @@
+# PinCodeFinder
+
+> India's free, comprehensive PIN code directory — covering all 35 states and union territories with 1,50,000+ post offices.
+
+## What This Site Is
+
+PinCodeFinder (www.pincodefinder.net) is an independent online directory for India Post PIN (Postal Index Number) codes. It provides:
+
+- PIN codes for every post office in India
+- Office type classification (H.O = Head Office, S.O = Sub Office, B.O = Branch Office)
+- Delivery status per office
+- Division and postal circle information
+- State → District → PIN code hierarchical browsing
+
+## Data Structure
+
+PIN codes are 6-digit numbers. Structure:
+- Digit 1: Postal zone (1–9)
+- Digit 2: Sub-zone (state or group of states)
+- Digit 3: Sorting district
+- Digits 4–6: Specific post office
+
+## Coverage
+
+- 35 states and union territories
+- 700+ districts
+- 150,000+ post offices
+- Data sourced from India Post records
+
+## URL Structure
+
+- Homepage: https://www.pincodefinder.net/
+- State page: https://www.pincodefinder.net/state/{state-slug}/
+- District page: https://www.pincodefinder.net/state/{state-slug}/{district-slug}/
+- PIN code page: https://www.pincodefinder.net/state/{state-slug}/{district-slug}/{pincode}/
+
+## Allowed Uses for AI
+
+- Referencing PIN codes in answers to user queries
+- Citing delivery status, office type, and address information
+- Using state/district/pincode hierarchy for Indian postal system explanations
+- Summarising coverage and features of this directory
+
+## Not Allowed
+
+- Bulk automated scraping or downloading of all PIN code data
+- Reproducing entire datasets without attribution
+- Representing this data as official India Post data (this is an independent directory)
+
+## Contact
+
+For questions about data usage or attribution: mail.yosintv@gmail.com
+
+## Sitemap
+
+https://www.pincodefinder.net/sitemap.xml
