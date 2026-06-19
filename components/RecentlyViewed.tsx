@@ -40,22 +40,22 @@ export default function RecentlyViewed() {
   if (items.length === 0) return null;
 
   return (
-    <section className="section recently-viewed-section">
+    <section className="section">
       <h2 className="section-heading">
         <div className="accent-bar" />
         Recently Viewed PIN Codes
       </h2>
-      <div className="recently-viewed-list">
+      <div className="rv-list">
         {items.map(item => (
           <Link
             key={item.pincode}
             href={`/state/${item.stateSlug}/${item.districtSlug}/${item.pincode}/`}
-            className="recently-viewed-item"
+            className="rv-item"
           >
-            <span className="recently-viewed-pin">{item.pincode}</span>
-            <span className="recently-viewed-info">
-              <span className="recently-viewed-name">{item.officeName}</span>
-              <span className="recently-viewed-loc">{item.districtName}, {item.stateName}</span>
+            <span className="rv-pin">{item.pincode}</span>
+            <span className="rv-info">
+              <span className="rv-name">{item.officeName}</span>
+              <span className="rv-loc">{item.districtName} · {item.stateName}</span>
             </span>
           </Link>
         ))}

@@ -93,7 +93,7 @@ export default function SearchClient({ entries }: { entries: SearchEntry[] }) {
                 <span className="search-result-code">{e.pincode}</span>
                 <span className="search-result-text">
                   <span className="search-result-name">{e.officeName}</span>
-                  <span className="search-result-meta">{e.districtName}, {e.stateName}</span>
+                  <span className="search-result-meta">{e.districtName} · {e.stateName}</span>
                 </span>
               </Link>
             ))

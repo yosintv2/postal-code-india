@@ -5,7 +5,6 @@ import { fetchStateOffices } from '@/lib/pincode';
 import { toSlug } from '@/lib/utils';
 import SearchClient from '@/components/SearchClient';
 import type { SearchEntry } from '@/components/SearchClient';
-import PincodeValidator from '@/components/PincodeValidator';
 import RecentlyViewed from '@/components/RecentlyViewed';
 import Faq from '@/components/Faq';
 
@@ -77,18 +76,6 @@ export default async function HomePage() {
           <p className="hero-sub">Find the PIN code for any post office in India — all states, districts &amp; localities</p>
           <SearchClient entries={searchEntries} />
         </div>
-      </section>
-
-      {/* PIN Code Validator */}
-      <section className="section section-alt">
-        <h2 className="section-heading">
-          <div className="accent-bar" />
-          PIN Code Validator
-        </h2>
-        <p style={{ color: 'var(--text-muted)', marginBottom: '16px', fontSize: '0.9rem' }}>
-          Enter any 6-digit PIN code to instantly verify and identify the post office, district, and state.
-        </p>
-        <PincodeValidator entries={searchEntries} />
       </section>
 
       {/* Recently Viewed — client component, shows only if localStorage has data */}
