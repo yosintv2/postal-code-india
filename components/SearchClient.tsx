@@ -3,13 +3,12 @@
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 
-interface SearchEntry {
+export interface SearchEntry {
   pincode: string;
   officeName: string;
   districtName: string;
   stateName: string;
-  stateSlug: string;
-  districtSlug: string;
+  href: string;
 }
 
 export default function SearchClient({ entries }: { entries: SearchEntry[] }) {
@@ -25,20 +24,20 @@ export default function SearchClient({ entries }: { entries: SearchEntry[] }) {
         e.districtName.toLowerCase().includes(q) ||
         e.stateName.toLowerCase().includes(q),
       )
-      .slice(0, 20);
+      .slice(0, 15);
   }, [query, entries]);
 
   return (
     <div className="search-wrap">
-      <div className="search-box">
-        <svg className="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+      <div className="hero-search-box">
+        <svg className="hero-search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none"
           stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
           <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
         </svg>
         <input
           type="search"
-          className="search-input"
-          placeholder="Search by PIN code, office name, or district…"
+          className="hero-search"
+          placeholder="Search PIN code, post office, or district…"
           value={query}
           onChange={e => setQuery(e.target.value)}
           autoComplete="off"
@@ -47,22 +46,19 @@ export default function SearchClient({ entries }: { entries: SearchEntry[] }) {
       {query.length >= 2 && (
         <div className="search-results">
           {results.length === 0 ? (
-            <p className="search-empty">No results found for &quot;{query}&quot;</p>
+            <p className="search-empty" style={{ color: 'var(--text-muted)', padding: '12px 14px' }}>
+              No results for &quot;{query}&quot;
+            </p>
           ) : (
-            <>
-              <p className="search-count">{results.length === 20 ? '20+' : results.length} results</p>
-              <ul>
-                {results.map((e, i) => (
-                  <li key={i}>
-                    <Link href={`/state/${e.stateSlug}/${e.districtSlug}/${e.pincode}/`}>
-                      <span className="result-pin">{e.pincode}</span>
-                      <span className="result-name">{e.officeName}</span>
-                      <span className="result-loc">{e.districtName}, {e.stateName}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </>
+            results.map((e, i) => (
+              <Link key={i} href={e.href} className="search-result-item">
+                <span className="search-result-code">{e.pincode}</span>
+                <span className="search-result-text">
+                  <span className="search-result-name">{e.officeName}</span>
+                  <span className="search-result-meta">{e.districtName}, {e.stateName}</span>
+                </span>
+              </Link>
+            ))
           )}
         </div>
       )}

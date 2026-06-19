@@ -1,9 +1,6 @@
-interface FaqItem {
-  q: string;
-  a: string;
-}
+interface FaqItem { q: string; a: string }
 
-export default function Faq({ items, heading = 'Frequently Asked Questions' }: { items: FaqItem[]; heading?: string }) {
+export default function Faq({ items, title }: { items: FaqItem[]; title?: string }) {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -15,19 +12,20 @@ export default function Faq({ items, heading = 'Frequently Asked Questions' }: {
   };
 
   return (
-    <section className="faq-section">
+    <div className="faq-section">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
-      <div className="container">
-        <h2>{heading}</h2>
-        <div className="faq-list">
-          {items.map((item, i) => (
-            <details key={i} className="faq-item">
-              <summary>{item.q}</summary>
-              <p>{item.a}</p>
-            </details>
-          ))}
-        </div>
-      </div>
-    </section>
+      {title && (
+        <h2 className="section-heading">
+          <div className="accent-bar" />
+          {title}
+        </h2>
+      )}
+      {items.map((item, i) => (
+        <details key={i} className="faq-item">
+          <summary className="faq-q">{item.q}</summary>
+          <p className="faq-a">{item.a}</p>
+        </details>
+      ))}
+    </div>
   );
 }

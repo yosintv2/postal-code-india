@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Logo from './Logo';
 import { STATES } from '@/lib/states';
 
 export default function Footer() {
@@ -6,40 +7,49 @@ export default function Footer() {
   const uts = STATES.filter(s => s.type === 'ut');
 
   return (
-    <footer className="footer">
+    <footer>
       <div className="footer-inner">
-        <div className="footer-top">
-          <div className="footer-brand">
-            <span className="footer-logo">PincodeIN</span>
-            <p>India&apos;s most complete PIN code directory. Find post offices, delivery status, and addresses across all states and union territories.</p>
+        <div className="footer-grid">
+          <div>
+            <div className="footer-logo-row">
+              <Logo size={32} />
+              <span className="footer-brand-name">PincodeIN</span>
+            </div>
+            <p className="footer-desc">
+              India&apos;s most complete PIN code directory. Find post offices, delivery status, and addresses across all states and union territories.
+            </p>
+            <p className="footer-disclaimer">
+              Data sourced from India Post. For official information, visit indiapost.gov.in.
+            </p>
           </div>
-          <div className="footer-col">
-            <h4>States</h4>
-            <ul>
+          <div>
+            <div className="footer-col-title">States</div>
+            <div className="footer-links">
               {states.slice(0, 14).map(s => (
-                <li key={s.slug}><Link href={`/state/${s.slug}/`}>{s.name}</Link></li>
+                <Link key={s.slug} href={`/state/${s.slug}/`} className="footer-link">{s.name}</Link>
               ))}
-            </ul>
+            </div>
           </div>
-          <div className="footer-col">
-            <h4>&nbsp;</h4>
-            <ul>
+          <div>
+            <div className="footer-col-title">&nbsp;</div>
+            <div className="footer-links">
               {states.slice(14).map(s => (
-                <li key={s.slug}><Link href={`/state/${s.slug}/`}>{s.name}</Link></li>
+                <Link key={s.slug} href={`/state/${s.slug}/`} className="footer-link">{s.name}</Link>
               ))}
-            </ul>
+            </div>
           </div>
-          <div className="footer-col">
-            <h4>Union Territories</h4>
-            <ul>
+          <div>
+            <div className="footer-col-title">Union Territories</div>
+            <div className="footer-links">
               {uts.map(s => (
-                <li key={s.slug}><Link href={`/state/${s.slug}/`}>{s.name}</Link></li>
+                <Link key={s.slug} href={`/state/${s.slug}/`} className="footer-link">{s.name}</Link>
               ))}
-            </ul>
+            </div>
           </div>
         </div>
         <div className="footer-bottom">
-          <p>© {new Date().getFullYear()} PincodeIN · India PIN Code Directory · Data sourced from India Post</p>
+          <span>© {new Date().getFullYear()} PincodeIN · India PIN Code Directory</span>
+          <span>Data: India Post</span>
         </div>
       </div>
     </footer>

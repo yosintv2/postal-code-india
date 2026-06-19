@@ -1,38 +1,37 @@
 import Link from 'next/link';
 
-interface Crumb {
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://india.singhyogendra.com.np';
+
+interface BreadcrumbItem {
   label: string;
   href?: string;
 }
 
-export default function Breadcrumb({ crumbs }: { crumbs: Crumb[] }) {
-  const schema = {
+export default function Breadcrumb({ items }: { items: BreadcrumbItem[] }) {
+  const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
-    itemListElement: crumbs.map((c, i) => ({
+    itemListElement: items.map((item, i) => ({
       '@type': 'ListItem',
       position: i + 1,
-      name: c.label,
-      ...(c.href ? { item: `${process.env.NEXT_PUBLIC_SITE_URL}${c.href}` } : {}),
+      name: item.label,
+      ...(item.href ? { item: `${BASE_URL}${item.href}` } : {}),
     })),
   };
 
   return (
-    <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
-      <nav className="breadcrumb" aria-label="Breadcrumb">
-        <ol>
-          {crumbs.map((c, i) => (
-            <li key={i}>
-              {i < crumbs.length - 1 ? (
-                <><Link href={c.href!}>{c.label}</Link><span aria-hidden>›</span></>
-              ) : (
-                <span aria-current="page">{c.label}</span>
-              )}
-            </li>
-          ))}
-        </ol>
-      </nav>
-    </>
+    <nav className="breadcrumb" aria-label="Breadcrumb">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      {items.map((item, i) => (
+        <span key={i}>
+          {i > 0 && <span className="breadcrumb-sep">›</span>}
+          {item.href ? (
+            <Link href={item.href} className="breadcrumb-link">{item.label}</Link>
+          ) : (
+            <span className="breadcrumb-current">{item.label}</span>
+          )}
+        </span>
+      ))}
+    </nav>
   );
 }
