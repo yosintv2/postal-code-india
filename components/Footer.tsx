@@ -13,7 +13,7 @@ export default function Footer() {
           <div>
             <div className="footer-logo-row">
               <Logo size={32} />
-              <span className="footer-brand-name">PincodeIN</span>
+              <span className="footer-brand-name">PinCodeFinder</span>
             </div>
             <p className="footer-desc">
               India&apos;s most complete PIN code directory. Find post offices, delivery status, and addresses across all states and union territories.
@@ -48,7 +48,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="footer-bottom">
-          <span>© {new Date().getFullYear()} PincodeIN · India PIN Code Directory</span>
+          <span>© {new Date().getFullYear()} PinCodeFinder · India PIN Code Directory</span>
           <span>Data: India Post</span>
         </div>
       </div>

@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!result) return {};
   const { state, district, group } = result;
   const mainOffice = group.offices.find(o => o.officeType === 'H.O') ?? group.offices[0];
-  const title = `PIN Code ${pincode} — ${district.districtName}, ${state.stateName} | PincodeIN`;
+  const title = `PIN Code ${pincode} — ${district.districtName}, ${state.stateName} | PinCodeFinder`;
   const desc = `PIN code ${pincode} covers ${group.offices.length} post office${group.offices.length > 1 ? 's' : ''} in ${district.districtName}, ${state.stateName}. ${mainOffice ? `Main office: ${mainOffice.officeName}.` : ''} Find delivery status, address format, and nearby PIN codes.`;
   const keywords = [
     `${pincode} pin code`,

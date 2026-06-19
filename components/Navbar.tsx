@@ -36,9 +36,9 @@ export default function Navbar() {
     <nav className="navbar" role="navigation" aria-label="Main navigation">
       <div className="nav-top">
         <div className="nav-top-inner">
-          <Link href="/" className="nav-logo" aria-label="PincodeIN — India PIN Code Directory">
+          <Link href="/" className="nav-logo" aria-label="PinCodeFinder — India PIN Code Directory">
             <Logo size={40} />
-            <span className="nav-brand">Pincode<span>IN</span></span>
+            <span className="nav-brand">PinCode<span>Finder</span></span>
           </Link>
           <div className="nav-tagline">India&apos;s PIN Code Directory</div>
           <div className="nav-top-actions">

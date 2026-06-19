@@ -33,7 +33,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL || 'https://india.singhyogendra.com.np' }}
+          NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL || 'https://www.pincodefinder.net' }}
           NEXT_BASE_PATH: ${{ vars.NEXT_BASE_PATH || '' }}
 
       - name: Upload artifact

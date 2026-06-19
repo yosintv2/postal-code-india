@@ -3,19 +3,19 @@ import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://india.singhyogendra.com.np';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.pincodefinder.net';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: { default: 'PincodeIN — India PIN Code Directory', template: '%s | PincodeIN' },
+  title: { default: 'PinCodeFinder — India PIN Code Directory', template: '%s | PinCodeFinder' },
   description: 'Find PIN codes for any post office, district, or locality across all Indian states and union territories.',
   keywords: 'india pin code, pin code india, postal code india, india post pin code, pincode finder india, india pin code search',
-  authors: [{ name: 'PincodeIN' }],
-  openGraph: { siteName: 'PincodeIN', type: 'website', locale: 'en_IN' },
+  authors: [{ name: 'PinCodeFinder' }],
+  openGraph: { siteName: 'PinCodeFinder', type: 'website', locale: 'en_IN' },
   twitter: { card: 'summary_large_image' },
   robots: { index: true, follow: true },
   manifest: '/site.webmanifest',
-  applicationName: 'PincodeIN',
+  applicationName: 'PinCodeFinder',
 };
 
 const jsonLd = {
@@ -24,7 +24,7 @@ const jsonLd = {
     {
       '@type': 'WebSite',
       '@id': `${siteUrl}/#website`,
-      name: 'PincodeIN',
+      name: 'PinCodeFinder',
       url: siteUrl,
       description: 'India PIN code directory covering all states, districts, and post offices.',
       potentialAction: {
@@ -36,7 +36,7 @@ const jsonLd = {
     {
       '@type': 'Organization',
       '@id': `${siteUrl}/#organization`,
-      name: 'PincodeIN',
+      name: 'PinCodeFinder',
       url: siteUrl,
       logo: { '@type': 'ImageObject', url: `${siteUrl}/icon.svg` },
     },

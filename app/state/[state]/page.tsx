@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { state: slug } = await params;
   const info = STATES_BY_SLUG.get(slug);
   if (!info) return {};
-  const title = `${info.name} PIN Codes — All Districts & Post Offices | PincodeIN`;
+  const title = `${info.name} PIN Codes — All Districts & Post Offices | PinCodeFinder`;
   const desc = `Find PIN codes for all districts in ${info.name}. Browse post offices, head offices, and delivery zones across every district of ${info.name}${info.capital ? ` (Capital: ${info.capital})` : ''}.`;
   const keywords = [
     `${info.name} pin code`,

@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const result = await getDistrictData(stateSlug, districtSlug);
   if (!result) return {};
   const { state, district } = result;
-  const title = `${district.districtName} PIN Codes — ${state.stateName} | PincodeIN`;
+  const title = `${district.districtName} PIN Codes — ${state.stateName} | PinCodeFinder`;
   const desc = `All ${district.pincodes.length} PIN codes and ${district.totalOffices} post offices in ${district.districtName}, ${state.stateName}. Find head offices, delivery zones, and complete postal information.`;
   const keywords = [
     `${district.districtName} pin code`,
@@ -78,7 +78,7 @@ export default async function DistrictPage({ params }: Props) {
     { q: `What is the Head Office (H.O) PIN code of ${district.districtName}?`, a: headPin ? `The Head Office PIN code of ${district.districtName} is ${headPin.pincode}. The Head Office is the main administrative post office of the district.` : `${district.districtName} PIN codes are managed by Sub Offices and Branch Offices in the district.` },
     { q: `Can I use ${district.districtName} PIN codes for courier deliveries?`, a: `Yes. All valid PIN codes in ${district.districtName} are accepted by India Post and major couriers like Blue Dart, DTDC, Delhivery, and FedEx for serviceability checks.` },
     { q: `What does S.O and B.O mean for ${district.districtName} post offices?`, a: `S.O (Sub Office) is a post office that reports to the district Head Office. B.O (Branch Office) is a smaller post office that reports to a nearby S.O. Together, H.O, S.O, and B.O form the three-tier India Post network in ${district.districtName}.` },
-    { q: `How do I check if a PIN code in ${district.districtName} is for delivery?`, a: `On each PIN code detail page on PincodeIN, you can see the delivery status of every post office. Offices marked "Delivery" actively receive and distribute mail. "Non-Delivery" offices are administrative or relay offices.` },
+    { q: `How do I check if a PIN code in ${district.districtName} is for delivery?`, a: `On each PIN code detail page on PinCodeFinder, you can see the delivery status of every post office. Offices marked "Delivery" actively receive and distribute mail. "Non-Delivery" offices are administrative or relay offices.` },
   ];
 
   return (

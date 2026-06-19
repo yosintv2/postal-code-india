@@ -46,8 +46,8 @@ export default async function Image({ params }: { params: Promise<{ state: strin
             PIN
           </div>
           <div style={{ display: 'flex', color: 'white', fontWeight: 900, fontSize: '34px' }}>
-            <span>Pincode</span>
-            <span style={{ color: '#f97316' }}>IN</span>
+            <span>PinCode</span>
+            <span style={{ color: '#f97316' }}>Finder</span>
           </div>
         </div>
 
@@ -95,7 +95,7 @@ export default async function Image({ params }: { params: Promise<{ state: strin
           }}
         >
           <span style={{ display: 'flex', color: 'rgba(255,255,255,0.5)', fontSize: '18px' }}>
-            india.singhyogendra.com.np
+            www.pincodefinder.net
           </span>
           <div
             style={{

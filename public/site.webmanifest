@@ -1,7 +1,7 @@
 {
-  "name": "PincodeIN",
-  "short_name": "PincodeIN",
-  "description": "India PIN Code Directory",
+  "name": "PinCodeFinder",
+  "short_name": "PinCodeFinder",
+  "description": "India PIN Code Directory — Find any post office PIN code",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

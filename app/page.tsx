@@ -9,7 +9,7 @@ import RecentlyViewed from '@/components/RecentlyViewed';
 import Faq from '@/components/Faq';
 
 export const metadata: Metadata = {
-  title: 'PincodeIN — India PIN Code Finder | All States & Districts',
+  title: 'PinCodeFinder — India PIN Code Finder | All States & Districts',
   description: 'Find PIN codes for any post office, district, or locality in India. Search across all 35 states and union territories. Free India PIN code lookup tool.',
   keywords: 'india pin code, pin code india, postal code india, india post pin code, pincode finder india, india pin code search, india pin code lookup, 6 digit pin code india, india postal index number, find pin code india, india pincode directory, state wise pin code india',
   alternates: { canonical: '/' },
