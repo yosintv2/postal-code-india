@@ -4,9 +4,22 @@ import { toSlug } from '@/lib/utils';
 
 const API_BASE = 'https://api.singhyogendra.com.np/india-pincode';
 
+async function fetchWithRetry(url: string, retries = 4, delayMs = 1500): Promise<Response> {
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const res = await fetch(url, { next: { revalidate: false } });
+      if (res.ok) return res;
+      throw new Error(`HTTP ${res.status}`);
+    } catch (err) {
+      if (attempt === retries) throw err;
+      await new Promise(r => setTimeout(r, delayMs * (attempt + 1)));
+    }
+  }
+  throw new Error('unreachable');
+}
+
 export async function fetchStateOffices(apiFile: string): Promise<PostOffice[]> {
-  const res = await fetch(`${API_BASE}/${apiFile}.json`, { next: { revalidate: false } });
-  if (!res.ok) throw new Error(`Failed to fetch ${apiFile}: ${res.status}`);
+  const res = await fetchWithRetry(`${API_BASE}/${apiFile}.json`);
   return res.json();
 }
 
