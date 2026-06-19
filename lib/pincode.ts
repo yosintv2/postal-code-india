@@ -20,7 +20,11 @@ async function fetchWithRetry(url: string, retries = 4, delayMs = 1500): Promise
 
 export async function fetchStateOffices(apiFile: string): Promise<PostOffice[]> {
   const res = await fetchWithRetry(`${API_BASE}/${apiFile}.json`);
-  return res.json();
+  const text = await res.text();
+  // Strip bare control characters (U+0000–U+001F) that are invalid inside JSON strings,
+  // keeping tab (0x09), newline (0x0A) and carriage-return (0x0D) which JSON allows.
+  const clean = text.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, '');
+  return JSON.parse(clean);
 }
 
 function groupOffices(offices: PostOffice[]): DistrictData[] {
