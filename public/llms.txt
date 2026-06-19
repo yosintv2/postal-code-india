@@ -49,7 +49,7 @@ PIN codes are 6-digit numbers. Structure:
 
 ## Contact
 
-For questions about data usage or attribution: mail.yosintv@gmail.com
+For questions about data usage or attribution, use the contact form at https://www.pincodefinder.net/contact/
 
 ## Sitemap
 

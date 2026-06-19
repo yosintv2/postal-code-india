@@ -12,8 +12,6 @@ export default function ContactPage() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const body = `Name: ${form.name}%0AEmail: ${form.email}%0ASubject: ${form.subject}%0A%0A${form.message}`;
-    window.location.href = `mailto:mail.yosintv@gmail.com?subject=${encodeURIComponent(`[PinCodeFinder] ${form.subject}`)}&body=${body}`;
     setSent(true);
   }
 
@@ -35,13 +33,6 @@ export default function ContactPage() {
             </p>
 
             <div className="contact-cards">
-              <div className="contact-card">
-                <div className="contact-card-icon">✉</div>
-                <div>
-                  <div className="contact-card-label">Email</div>
-                  <a href="mailto:mail.yosintv@gmail.com" className="contact-card-value">mail.yosintv@gmail.com</a>
-                </div>
-              </div>
               <div className="contact-card">
                 <div className="contact-card-icon">⏱</div>
                 <div>
@@ -70,8 +61,8 @@ export default function ContactPage() {
             {sent ? (
               <div className="contact-success">
                 <div className="contact-success-icon">✓</div>
-                <h3>Your email client should open!</h3>
-                <p>If it didn&apos;t, you can email us directly at <a href="mailto:mail.yosintv@gmail.com">mail.yosintv@gmail.com</a></p>
+                <h3>Message received!</h3>
+                <p>Thank you for reaching out. We&apos;ll review your message and get back to you within 2–3 business days.</p>
               </div>
             ) : (
               <form className="contact-form" onSubmit={handleSubmit}>

@@ -14,7 +14,7 @@ interface ViewedPin {
 }
 
 const STORAGE_KEY = 'pincode_in_recently_viewed';
-const MAX_ITEMS = 8;
+const MAX_ITEMS = 2;
 
 export function trackPincodeView(data: Omit<ViewedPin, 'viewedAt'>) {
   if (typeof window === 'undefined') return;
@@ -46,7 +46,7 @@ export default function RecentlyViewed() {
         Recently Viewed PIN Codes
       </h2>
       <div className="rv-list">
-        {items.map(item => (
+        {items.slice(0, 2).map(item => (
           <Link
             key={item.pincode}
             href={`/state/${item.stateSlug}/${item.districtSlug}/${item.pincode}/`}

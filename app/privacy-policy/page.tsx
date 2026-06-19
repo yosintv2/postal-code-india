@@ -96,7 +96,7 @@ export default function PrivacyPolicyPage() {
             <li><strong>Right to Withdraw Consent:</strong> Withdraw consent for cookies at any time via our
             <Link href="/cookie-policy/"> Cookie Policy</Link> page.</li>
           </ul>
-          <p>To exercise these rights, contact us at <a href="mailto:mail.yosintv@gmail.com">mail.yosintv@gmail.com</a>.</p>
+          <p>To exercise these rights, please use our <Link href="/contact/">Contact page</Link>.</p>
 
           <h2>7. Children&apos;s Privacy</h2>
           <p>PinCodeFinder is not directed at children under 13 years of age. We do not knowingly collect
@@ -119,14 +119,7 @@ export default function PrivacyPolicyPage() {
           acceptance of the updated policy.</p>
 
           <h2>11. Contact Us</h2>
-          <p>For any privacy-related questions or requests, please contact us at:</p>
-          <div className="contact-card" style={{ marginTop: 12 }}>
-            <div className="contact-card-icon">✉</div>
-            <div>
-              <div className="contact-card-label">Privacy Enquiries</div>
-              <a href="mailto:mail.yosintv@gmail.com" className="contact-card-value">mail.yosintv@gmail.com</a>
-            </div>
-          </div>
+          <p>For any privacy-related questions or requests, please use our <Link href="/contact/">Contact page</Link>.</p>
         </div>
       </section>
     </>
