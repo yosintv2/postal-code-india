@@ -82,6 +82,9 @@ export default async function PincodePage({ params }: Props) {
   const mainOffice = headOffice ?? group.offices[0];
   const nearbyPincodes = district.pincodes.filter(p => p.pincode !== pincode).slice(0, 10);
   const otherStates = STATES.filter(s => s.slug !== stateSlug);
+  const mapQuery = encodeURIComponent(
+    `${mainOffice?.officeName ?? district.districtName}, ${district.districtName}, ${state.stateName} ${pincode} India`
+  );
 
   // Prefetch nearby PIN pages
   const prefetchUrls = nearbyPincodes.slice(0, 4).map(
@@ -253,6 +256,48 @@ export default async function PincodePage({ params }: Props) {
             variant="default"
           />
         </div>
+      </section>
+
+      <section className="section">
+        <h2 className="section-heading">
+          <div className="accent-bar" />
+          Location Map
+        </h2>
+        <div className="map-embed-wrap">
+          <iframe
+            src={`https://www.google.com/maps?q=${mapQuery}&output=embed&z=13`}
+            className="map-embed"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title={`Map of PIN code ${pincode} — ${district.districtName}, ${state.stateName}`}
+            allowFullScreen
+          />
+        </div>
+        <div className="map-actions">
+          <a
+            href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="map-btn map-btn-google"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+            Open in Google Maps
+          </a>
+          <a
+            href={`https://maps.apple.com/?q=${mapQuery}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="map-btn map-btn-apple"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.7 9.05 7.42c1.28.07 2.18.79 2.93.81.98-.17 1.92-.91 2.98-.87 1.27.05 2.22.62 2.82 1.56-2.53 1.49-1.93 4.93.69 5.93-.47 1.28-1.08 2.55-1.42 3.43zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
+            </svg>
+            Open in Apple Maps
+          </a>
+        </div>
+        <p className="map-note">Map shows the approximate area for PIN code {pincode}. Exact post office location may vary.</p>
       </section>
 
       <section className="section">
